@@ -5,27 +5,43 @@
   "directories": {
     "output": "release/${version}"
   },
-  "files": [
-    "dist-electron",
-    "dist"
+  "files": ["dist-electron/**/*", "dist/**/*", "electron/backend.exe"],
+  "extraResources": [
+    {
+      "from": "electron/backend.exe",
+      "to": "backend.exe",
+      "filter": ["**/*"]
+    }
   ],
   "mac": {
     "artifactName": "${productName}_${version}.${ext}",
-    "target": [
-      "dmg",
-      "zip"
+    "target": ["dmg", "zip"],
+    "extraResources": [
+      {
+        "from": "electron/backend",
+        "to": "backend",
+        "filter": ["**/*"]
+      }
     ]
   },
   "win": {
     "target": [
       {
         "target": "nsis",
-        "arch": [
-          "x64"
-        ]
+        "arch": ["x64"]
+      },
+      {
+        "target": "portable",
+        "arch": ["x64"]
       }
     ],
-    "artifactName": "${productName}_${version}.${ext}"
+    "artifactName": "${productName}_${version}.${ext}",
+    "extraFiles": [
+      {
+        "from": "electron/backend.exe",
+        "to": "backend.exe"
+      }
+    ]
   },
   "nsis": {
     "oneClick": false,
@@ -37,5 +53,15 @@
     "provider": "generic",
     "channel": "latest",
     "url": "https://github.com/electron-vite/electron-vite-react/releases/download/v0.9.9/"
+  },
+  "linux": {
+    "target": ["AppImage", "deb"],
+    "extraResources": [
+      {
+        "from": "electron/backend",
+        "to": "backend",
+        "filter": ["**/*"]
+      }
+    ]
   }
 }
